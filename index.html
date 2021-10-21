@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+        <title>Estudo com Vue</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+
+        <link rel="stylesheet" href="main.css" />
+
+    </head>
+    <body>
+
+        <div id="app">
+
+            <div class="table__title">
+                <h3>Data Table</h3>
+            </div>
+    
+            <table class="table__main">                
+    
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th> Nº Celular</th>
+                        <th> Ações </th>
+                    </tr>
+                </thead>
+    
+                <tbody>
+    
+                    <tr v-for="(contato, index) in contatos" :key="index">
+
+                        <td @click="editItem(contato)">
+                            {{ contato.nome }}               
+                        </td>
+    
+                        <td @click="editItem(contato)">
+                            {{ contato.telefone | celNumber }}
+                        </td>                       
+    
+                        <td colspan="2">
+                            <button style="margin: 0px 30%;" class="dialogbox__button_cancel" @click="deleteItem(contato)">Delete</button>
+                        </td>                        
+                        
+                        <modal v-show="isModalVisible"
+                        @close="closeModal"
+                        @save="saveItem(contato)"
+                        @cancel="closeModal">
+
+                            <div class="form__group">				
+                                <input id="nome" class="form__group_field" type="text" v-model="contato.nome">
+                                <label for="nome" class="form__group_label"> nome </label>
+                            </div>
+
+                            <div class="form__group">				
+                                <input id="telefone" class="form__group_field" type="text" v-model="contato.telefone">
+                                <label for="telefone" class="form__group_label"> telefone </label>
+                            </div>
+
+                            <div class="form__errors" v-for="(error, index) in errors" :key="index">
+                                <p>{{ error }}</p>
+                            </div>
+
+                        </modal>    
+                    </tr>
+
+                    
+                </tbody>
+
+                <tfoot>                    
+                    <td colspan="3" @click="editItem">+ Add</td>                
+                </tfoot> 
+
+                
+
+            </table>           
+        
+        </div>        
+        
+        <script src="main.js"></script>
+
+    </body>
+</html>
